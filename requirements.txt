@@ -1,0 +1,8 @@
+# - Similar to a POM.XML but easier to work woth.
+# - just specify package names for a pycharm
+# - project in this file and the pycharm
+# - will handle the rest ...
+
+flask
+flask-sqlalchemy
+sqlalchemy
