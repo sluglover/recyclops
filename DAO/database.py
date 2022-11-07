@@ -24,5 +24,5 @@ database - name of the database to connect to
 """
 def db_init(app, username, password, database):
     """todo: replace as fstring"""
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://asap:$PokerCh1p1234@localhost/recyclops"
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{username}:{password}@localhost/{database}"
     db.init_app(app)

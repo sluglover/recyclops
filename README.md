@@ -33,4 +33,4 @@
 ## Testing
 * '/getLocations' endpoint: **'curl -X GET 
    http://127.0.0.1:5000/getLocations?material={material}'**
-* /insertTable **'curl -X POST http://127.0.0.1:5000/insertTable'**
+* /insertTable endpoint  **'curl -X POST http://127.0.0.1:5000/insertTable'**
