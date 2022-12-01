@@ -21,7 +21,7 @@ def main():
         for i, line in enumerate(reader):
             address = line[2].splitlines()
 
-            if len(address) < 0 or ("Various" or "Multiple " in address[0]):
+            if len(address) <= 0 or "Various" in address[0] or "Multiple" in address[0]:
                 print(f"{i}, N/A")
                 continue
 
