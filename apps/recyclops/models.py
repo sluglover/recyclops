@@ -21,6 +21,11 @@ class centers(db.Model):
     name    = sa.Column(sa.String, foreign_key=True)
     mat     = sa.Column(sa.String)
 
+    def __init__(self, row_num, name, mat):
+        self.row_num = row_num
+        self.name    = name
+        self.mat     = mat
+
 class locations(db.Model):
     name = sa.Column(sa.String, primary_key=True)
     lat  = sa.Column(sa.FLOAT)
