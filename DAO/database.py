@@ -21,8 +21,8 @@ app - flask app to register
 username - username of the database
 password - password associated with 'username' 
 database - name of the database to connect to
-"""
+"d""
 def db_init(app, username, password, database):
-    """todo: replace as fstring"""
     app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{username}:{password}@localhost/{database}"
     db.init_app(app)
+

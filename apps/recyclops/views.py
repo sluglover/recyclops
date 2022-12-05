@@ -1,7 +1,8 @@
 from flask import Blueprint, request, Response
-from apps.recyclops.models import centers
+from apps.recyclops.models import locations
 from DAO.database import db
 import json
+import csv
 
 
 """"
@@ -49,9 +50,10 @@ def getLocations():
 
         # - perform the database query. Please search for 'sqlalchemy queries' for more info
         # - on how the queries operate.
-        recyclingCenters = db.session.query(centers.center_name, centers.latitude, centers.longitude)\
-            .filter(centers.material == queryParams["material"]).all()
+        #recyclingCenters = db.session.query(centers.center_name, centers.latitude, centers.longitude)\
+        #    .filter(centers.material == queryParams["material"]).all()
 
+        recyclingCenters = []
         for rc in recyclingCenters:
             filtered["locations"].append({"center name": rc[0], "latitude": rc[1], "longitude": rc[2]})
 
@@ -74,15 +76,21 @@ is complete
 """
 @recyclopsApp.post("/insertTable")
 def createCenters():
-    recycling = [centers("plastics", "plastic recycling", 69, 420),
-                 centers("metals", "metals recycling", 6969, 69),
-                 centers("radioactive material", "Russia", 6, 9)]
+    with open("/home/phil/PycharmProjects/442/recyclops/db.csv") as f:
+        reader = csv.reader(f)
 
-    for cs in recycling:
-        db.session.add(cs)
-        db.session.commit()
+        for line in reader:
+            if "," in line[3]:
+                coord = line[3].lstrip().split(",")
+            elif " " in line[3]:
+                coord = line[3].lstrip().split(" ")
+            else:
+                continue
 
-    return Response(json.dumps({"message", "Insertions successful!"}, status=200, mimetype="application/json"))
+            db.session.add(locations(line[1], float(coord[0]), float(coord[1])))
+            db.session.commit()
+
+    return Response(json.dumps({"message": "Insertions successful!"}), status=200, mimetype="application/json")
 
 
 """

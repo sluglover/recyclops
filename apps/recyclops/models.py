@@ -16,15 +16,13 @@ of the table precisely if the table already
 exists. With that, all defined columns also 
 need to be declared as class variables. 
 """
-class centers(db.Model):
-    material    = sa.Column(sa.String, primary_key=True)
-    center_name = sa.Column(sa.String)
-    latitude    = sa.Column(sa.FLOAT)
-    longitude   = sa.Column(sa.FLOAT)
 
+class locations(db.Model):
+    name = sa.Column(sa.String, primary_key=True)
+    lat  = sa.Column(sa.FLOAT)
+    lng  = sa.Column(sa.FLOAT)
 
-    def __init__(self, material, center_name,  latitude, longitude):
-        self.material    = material
-        self.center_name = center_name
-        self.latitude    = latitude
-        self.longitude   = longitude
+    def __init__(self, name, lat, lng):
+        self.name = name
+        self.lat  = lat
+        self.lng  = lng
