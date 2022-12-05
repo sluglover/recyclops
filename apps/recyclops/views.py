@@ -52,11 +52,15 @@ def getLocations():
         # - on how the queries operate.
         #recyclingCenters = db.session.query(centers.center_name, centers.latitude, centers.longitude)\
         #    .filter(centers.material == queryParams["material"]).all()
-
+        
+        # STILL FIGURING OUT SPECIFICS FOR THIS
+        # basically just want to query material from centers.csv for the respective company names, then for each company, query the center name from locations.csv to get the latitude and longitude
+        recyclingCenters = db.session.query(centers).filter(centers.mat == queryParams['material']).all()
         recyclingCenters = []
         for rc in recyclingCenters:
-            filtered["locations"].append({"center name": rc[0], "latitude": rc[1], "longitude": rc[2]})
-
+            #filtered["locations"].append({"center name": rc[0], "latitude": rc[1], "longitude": rc[2]})
+            location = db.session.query(locations).filter(locations.name == rc[2]).all()
+            filtered['locations'].append({'center name': location[0], "latitude": location[1], "longitude": location[2]})
         return Response(json.dumps(filtered),
                         status=200,
                         mimetype="application=/json")
@@ -74,7 +78,7 @@ HTTP post request to insert data into the
 all database data when recycling center compilation 
 is complete
 """
-@recyclopsApp.post("/insertTable")
+@recyclopsApp.post("/insertLocationsTable")
 def createLocations():
     with open("locations.csv") as f:
         reader = csv.reader(f)
@@ -85,6 +89,10 @@ def createLocations():
 
     return Response(json.dumps({"message": "Insertions successful!"}), status=200, mimetype="application/json")
 
+def constructError(errorMsg, errorCode):
+    return {"Error Message": errorMsg, "error code": errorCode}
+
+@recyclopsApp.post("/insertCentersTable")
 def createCenters():
     with open("centers.csv") as f:
         reader = csv.reader(f)
