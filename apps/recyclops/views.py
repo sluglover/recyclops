@@ -75,24 +75,23 @@ all database data when recycling center compilation
 is complete
 """
 @recyclopsApp.post("/insertTable")
-def createCenters():
-    with open("/home/phil/PycharmProjects/442/recyclops/db.csv") as f:
+def createLocations():
+    with open("locations.csv") as f:
         reader = csv.reader(f)
 
         for line in reader:
-            if "," in line[3]:
-                coord = line[3].lstrip().split(",")
-            elif " " in line[3]:
-                coord = line[3].lstrip().split(" ")
-            else:
-                continue
-
-            db.session.add(locations(line[1], float(coord[0]), float(coord[1])))
-            db.session.commit()
+            db.session.add(locations(line[0], float(line[1]), float(line[2])))
+        db.session.commit()
 
     return Response(json.dumps({"message": "Insertions successful!"}), status=200, mimetype="application/json")
 
+def createCenters():
+    with open("centers.csv") as f:
+        reader = csv.reader(f)
 
+        for line in reader:
+            db.session.add(centers(int(line[0]), line[1], line[2])
+        db.session.commit()
 """
 helper method to construct error messages
 """
