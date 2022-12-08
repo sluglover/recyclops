@@ -17,8 +17,9 @@ exists. With that, all defined columns also
 need to be declared as class variables. 
 """
 class centers(db.Model):
+    __tablename__ = 'centers'
     row_num = sa.Column(sa.Integer, primary_key=True)
-    name    = sa.Column(sa.String, foreign_key=True)
+    name    = sa.Column(sa.String, sa.ForeignKey('locations.name'))
     mat     = sa.Column(sa.String)
 
     def __init__(self, row_num, name, mat):
@@ -27,6 +28,7 @@ class centers(db.Model):
         self.mat     = mat
 
 class locations(db.Model):
+    __tablename__ = 'locations'
     name = sa.Column(sa.String, primary_key=True)
     lat  = sa.Column(sa.FLOAT)
     lng  = sa.Column(sa.FLOAT)
