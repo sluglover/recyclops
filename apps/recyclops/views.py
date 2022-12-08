@@ -53,8 +53,6 @@ def getLocations():
         #recyclingCenters = db.session.query(centers.center_name, centers.latitude, centers.longitude)\
         #    .filter(centers.material == queryParams["material"]).all()
         
-        # STILL FIGURING OUT SPECIFICS FOR THIS
-        # basically just want to query material from centers.csv for the respective company names, then for each company, query the center name from locations.csv to get the latitude and longitude
         recyclingCenters = db.session.query(centers).filter(centers.mat == queryParams['material']).all()
         recyclingCenters = []
         for rc in recyclingCenters:
@@ -84,7 +82,7 @@ def createLocations():
         reader = csv.reader(f)
 
         for line in reader:
-            db.session.add(locations(line[0], float(line[1]), float(line[2])))
+            location = db.session.add(locations(line[0], float(line[1]), float(line[2])))
         db.session.commit()
 
     return Response(json.dumps({"message": "Insertions successful!"}), status=200, mimetype="application/json")
@@ -98,7 +96,7 @@ def createCenters():
         reader = csv.reader(f)
 
         for line in reader:
-            db.session.add(centers(int(line[0]), line[1], line[2])
+            center = db.session.add(centers(int(line[0]), line[1], line[2]))
         db.session.commit()
 """
 helper method to construct error messages
